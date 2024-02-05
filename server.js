@@ -6,8 +6,9 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const router = require('./app/routes')
 const auth = require('./middleware/authMiddleware');
-const projectRouter = require('./app/routes/projects')
-const taskRouter    =require('./app/routes/tasks')
+const projectRouter = require('./app/routes/projects');
+const taskRouter    =require('./app/routes/tasks');
+const invoicesRouter = require('./app/routes/invoices');
 
 
 
@@ -33,6 +34,7 @@ mongoose.connect('mongodb+srv://pierredillard:rfLDX6mFXpxk2FwS@cluster0.xpfezp3.
 app.use('/api', router);
 app.use('/api/projects', auth, projectRouter);
 app.use('/api/tasks', auth, taskRouter);
+app.use('/api/invoices', auth, invoicesRouter);
 
 
 // Démarrage du serveur
