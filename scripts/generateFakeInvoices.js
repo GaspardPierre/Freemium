@@ -1,5 +1,6 @@
 
-
+const dotenv = require ('dotenv');
+dotenv.config();
 const { faker } = require("@faker-js/faker");
 const  MongoClient= require("mongodb").MongoClient;
 const { ObjectId } = require('mongodb')

@@ -1,3 +1,6 @@
+
+const dotenv = require ('dotenv');
+dotenv.config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -14,6 +17,8 @@ const invoicesRouter = require('./app/routes/invoices');
 
 const app = express();
 const mongoDB_URI = process.env.MONGODB_URI;
+console.log("URI de MongoDB:", process.env.MONGODB_URI);
+
 
 // Middleware de sécurité
 app.use(cors());
@@ -39,7 +44,7 @@ app.use('/api/invoices', auth, invoicesRouter);
 
 
 // Démarrage du serveur
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
