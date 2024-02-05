@@ -3,11 +3,11 @@
 const { faker } = require("@faker-js/faker");
 const  MongoClient= require("mongodb").MongoClient;
 const { ObjectId } = require('mongodb')
-
+const mongoDB_URI = process.env.MONGODB_URI;
 
 
 async function seedDB() {
-    const uri = 'mongodb+srv://pierredillard:rfLDX6mFXpxk2FwS@cluster0.xpfezp3.mongodb.net/';
+    const uri = mongoDB_URI;
     const client = new MongoClient(uri);
     try {
         await client.connect();

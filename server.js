@@ -13,6 +13,7 @@ const invoicesRouter = require('./app/routes/invoices');
 
 
 const app = express();
+const mongoDB_URI = process.env.MONGODB_URI;
 
 // Middleware de sécurité
 app.use(cors());
@@ -24,7 +25,7 @@ app.use(rateLimit({
 }));
 
 // Connexion MongoDB
-mongoose.connect('mongodb+srv://pierredillard:rfLDX6mFXpxk2FwS@cluster0.xpfezp3.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect(mongoDB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
