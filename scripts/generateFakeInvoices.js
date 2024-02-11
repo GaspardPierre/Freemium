@@ -13,7 +13,7 @@ async function seedDB() {
     try {
         await client.connect();
         console.log("Connected correctly to server");
-        const collection = client.db("freemium").collection("invoices");
+        const collection = client.db("freemium").collection("revenues");
 
         let fakeInvoices = [];
         for (let i = 0; i < 10; i++) {

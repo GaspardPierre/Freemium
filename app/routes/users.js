@@ -1,19 +1,36 @@
-const dotenv = require('dotenv');
-dotenv.config();
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const dbMiddleware = require('../../middleware/dbMiddleware')
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const mongoDB_URI = process.env.MONGODB_URI;
 const auth = require('../../middleware/authMiddleware');
+const User = require('../models/Users');
 
-// MongoDB URI and client setup
-const uri = mongoDB_URI;
-const client = new MongoClient(uri);
+
+
+
+
+
+//get user by email
+
+router.get('/by-email/:email',dbMiddleware, async (req, res) => {
+  const { usersCollection } = req.db;
+  try {
+    const user = await  User.findOne({ email });
+    if (!user) {
+      return res.status(404).send('Utilisateur non trouvé.');
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('Erreur lors de la récupération de l\'utilisateur:', error);
+    res.status(500).send('Erreur lors de la récupération de l\'utilisateur.');
+  }
+});
+
 
 // Connexion
-router.post('/login', async (req, res) => {
+router.post('/login', dbMiddleware, async (req, res) => {
+  const { usersCollection } = req.db;
   const { email, password } = req.body;
   console.log(req.body);
 
@@ -22,13 +39,11 @@ router.post('/login', async (req, res) => {
   }
 
   try {
-    await client.connect();
-    const database = client.db("freemium");
-    const users = database.collection("users"); // Assurez-vous que c'est le bon nom de collection
+// Assurez-vous que c'est le bon nom de collection
 
-    const searchedUser = await users.findOne({ email });
+    const searchedUser = await usersCollection.findOne({ email });
 
-console.log(searchedUser,"SearchUser");
+
     if (!searchedUser) {
       return res.status(401).json({ message: "Unauthorized access. Please sign up first." });
     }
@@ -53,9 +68,7 @@ console.log(searchedUser,"SearchUser");
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ message: 'Server error occurred during processing request.' });
-  } finally {
-    await client.close();
-  }
+  } 
 });
 
 module.exports = router;

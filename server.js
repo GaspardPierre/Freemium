@@ -6,13 +6,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const router = require('./app/routes')
+const indexRouter = require('./app/routes')
 
-const projectRouter = require('./app/routes/projects');
-const taskRouter    =require('./app/routes/tasks');
-const invoicesRouter = require('./app/routes/invoices');
-const usersRouter = require('./app/routes/users');
-const customersRouter = require('./app/routes/customers')
 
 
 const app = express();
@@ -42,12 +37,8 @@ mongoose.connect(mongoDB_URI)
 
 // Routes
 
-app.use('/api', router);
-app.use('/api/projects', projectRouter);
-app.use('/api/tasks',taskRouter);
-app.use('/api/invoices',invoicesRouter);
-app.use('/api/users', usersRouter);
-app.use('/api/customers', customersRouter);
+app.use('/api', indexRouter);
+
 
 
 // Démarrage du serveur
