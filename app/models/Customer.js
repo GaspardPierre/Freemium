@@ -7,6 +7,6 @@ const customerSchema = new mongoose.Schema({
   image_url: { type: String },
 });
 
-const Customer = mongoose.model('Customer', customerSchema);
 
-module.exports = Customer;
+
+module.exports = mongoose.model('Customer', customerSchema);

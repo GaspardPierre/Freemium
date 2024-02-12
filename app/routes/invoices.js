@@ -10,22 +10,34 @@ const { ObjectId } = require('mongodb');
 
 
 // Route pour obtenir les  5 dernières factures
+
 router.get('/latest',  async (req, res) => {
 
-    try {
-     
-      const latestInvoices = await Invoices.find({})
-        .sort({ date: -1 })
-        .limit(5)
-        .populate('customer_id', ['name', 'image_url', 'email']);
+  try { 
+    console.log("Début de la récupération des dernières factures");
+    const invoices = await Invoices.find({})
+    .sort({ date: -1 })
+console.log("*********INVOICES***************", invoices);
+    const latestInvoices = await Invoices.find({})
+      .sort({ date: -1 })
+      .limit(5)
+      .populate('customer_id', ['name', 'email' ,'image_url']);
 
-      res.json(latestInvoices);
-    } catch (error) {
-      console.error('Erreur lors de la récupération des dernières factures:', error); 
-      res.status(500).send('Erreur lors de la récupération des dernières factures.');
+    console.log("Invoices récupérées:", latestInvoices);
+
+    if (latestInvoices && latestInvoices.length > 0) {
+      latestInvoices.forEach((invoice, index) => {
+        console.log(`Facture ${index + 1}: `, invoice);
+        console.log(`Customer ID ${index + 1}: `, invoice.customer_id);
+      });
     }
-  });
-  
+
+    res.json(latestInvoices);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des dernières factures:', error);
+    res.status(500).send('Erreur lors de la récupération des dernières factures.');
+  }
+});
 
   router.get('/search', dbMiddleware, async (req, res) => {
    const { invoicesCollection, customerCollection} = req.db;

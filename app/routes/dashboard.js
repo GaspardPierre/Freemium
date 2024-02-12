@@ -3,10 +3,12 @@ const router = express.Router();
 const Invoices = require('../models/Invoices');
 const Customer = require('../models/Customer');
 
+
 router.get('/', async (req, res) => {
 
     try {
       const invoicesCount = await Invoices.countDocuments();
+      console.log(invoicesCount.toString)
       const customersCount = await Customer.countDocuments();
       const invoiceAmounts = await Invoices.aggregate([
         {

@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
+const { Schema } = require('mongoose');
+const Customer = require('./Customer');
 
 const invoiceSchema = new mongoose.Schema({
   customer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
-  items: [{
-    description: String,
-    hours: Number,
-    rate: Number
-  }],
+  items: [new Schema({ description: String,
+     hours: Number,
+      rate: Number })],
   amount: Number,
   date: { type: Date, default: Date.now },
   dueDate: Date,
