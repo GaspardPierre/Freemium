@@ -6,16 +6,17 @@ const projectsRouter = require('./projects');
 const invoiceRouter = require ('./invoices');
 const usersRouter = require('./users');
 const customersRouter = require('./customers')
-const dashboardRouter = require ('./dashboard')
+const dashboardRouter = require ('./dashboard');
+const auth = require('../../middleware/authMiddleware');
 
 
 
 router.use('/users', usersRouter);
-router.use('/dashboard', dashboardRouter)
-router.use('/revenues', revenueRouter);
-router.use('/projects', projectsRouter);
-router.use('/tasks', tasksRouter);
-router.use('/invoices', invoiceRouter);
-router.use('/customers', customersRouter)
+router.use('/dashboard',auth, dashboardRouter)
+router.use('/revenues', auth,revenueRouter);
+router.use('/projects', auth, projectsRouter);
+router.use('/tasks', auth,tasksRouter);
+router.use('/invoices', auth, invoiceRouter);
+router.use('/customers', auth, customersRouter)
 
 module.exports = router

@@ -3,7 +3,8 @@ const dbMiddleware = require('../../middleware/dbMiddleware');
 const Invoices = require('../models/Invoices');
 const Customer = require('../models/Customer');
 const router = express.Router();
-const { ObjectId } = require('mongodb'); 
+const { ObjectId } = require('mongodb');
+const auth = require('../../middleware/authMiddleware');
 
 
 
@@ -11,7 +12,7 @@ const { ObjectId } = require('mongodb');
 
 // Route pour obtenir les  5 dernières factures
 
-router.get('/latest',  async (req, res) => {
+router.get('/latest', async (req, res) => {
 
   try { 
     console.log("Début de la récupération des dernières factures");
