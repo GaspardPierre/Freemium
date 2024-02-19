@@ -7,7 +7,16 @@ const invoiceSchema = new mongoose.Schema({
   items: [new Schema({ description: String,
      hours: Number,
       rate: Number })],
-  amount: Number,
+      amount: {
+        type: Number,
+        required: true,
+        validate: {
+          validator: function(v) {
+            return !isNaN(v);
+          },
+          message: props => `${props.value} n'est pas un nombre valide!`
+        }
+      },
   date: { type: Date, default: Date.now },
   dueDate: Date,
   status: { type: String, enum: ['draft', 'pending', 'paid'], default: 'Draft' }

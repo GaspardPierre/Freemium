@@ -2,6 +2,7 @@
 const connectDB = require('../db');
 
 async function dbMiddleware(req, res, next) {
+  console.log('Requête reçue sur:', req.path);
   try {
     const dbInstance = await connectDB();
     req.db = {

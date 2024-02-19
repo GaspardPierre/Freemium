@@ -62,6 +62,12 @@ router.post('/login', dbMiddleware, async (req, res) => {
       process.env.AUTH_SECRET,
       { expiresIn: '1h' }
     );
+    res.cookie('authToken', token, {
+      httpOnly: true, //
+      secure: process.env.NODE_ENV === 'production', 
+      sameSite: 'None', 
+      maxAge: 3600000, 
+    });
 
     // Send success response along with token
     res.status(200).json({ token: token, message: 'Successfully logged in.' });
