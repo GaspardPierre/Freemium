@@ -106,6 +106,7 @@ router.get('/filtered', dbMiddleware, async (req, res) => {
   }
 
     const invoices = await Invoices.aggregate(aggregateConditions);
+    console.log("invoices dans le router ..", invoices)
     res.json(invoices);
   } catch (error) {
     console.error('Erreur lors de la récupération des factures filtrées:', error);
@@ -169,6 +170,30 @@ router.get('/amounts',dbMiddleware,async (req, res) => {
     res.status(500).send('Erreur de serveur');
   }
 });
+
+router.post('/create', async(req, res) =>  {
+
+
+  try {
+    const customer = await Customer.findOne({ name: req.body.customer_id });
+    if (!customer) {
+      return res.status(404).send('Client non trouvé');
+    }
+
+    const newInvoice = new Invoices({
+      ...req.body,
+      customer_id: customer._id,
+    });
+
+    const result = await newInvoice.save();
+  
+  
+    res.json(result);
+  } catch (error) {
+    res.status(500).send('Erreur de serveur ' + error.message);
+  }
+});
+
 
 
 
